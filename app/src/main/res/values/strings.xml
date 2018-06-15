@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">影视下载</string>
+    <string name="start_now">立即体验</string>
+    <string name="open">开始</string>
+    <string name="close">关闭</string>
+    <string name="add_task">新建任务</string>
+    <string name="task_url">下载地址</string>
+    <string name="task_name">文件名称</string>
+    <string name="task_path">保存路径</string>
+    <string name="task_size">文件大小</string>
+    <string name="about_us">关于我们</string>
+    <!--选择路径-->
+    <string name="menu_sure">选择目录</string>
+    <string name="menu_create">新建文件夹</string>
+    <string name="menu_back">返回上一级</string>
+</resources>

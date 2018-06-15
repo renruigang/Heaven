@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.actionbartest.MainActivity">
+
+    <item
+        android:id="@+id/action_sure"
+        android:title="@string/menu_sure" />
+    <item
+        android:id="@+id/action_create"
+        android:title="@string/menu_create" />
+
+</menu>
