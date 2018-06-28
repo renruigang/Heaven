@@ -20,22 +20,29 @@ import java.io.File;
 
 public class DownloadUtils {
 
+    private static DownloadUtils downloadUtils;
     private Context mContext;
     private long mTaskId;
     private DownloadManager downloadManager;
     private String path;
 
-    public void init(Context context) {
+    public static DownloadUtils getInstance(Context context) {
+        if (downloadUtils == null) {
+            downloadUtils = new DownloadUtils(context);
+        }
+        return downloadUtils;
+    }
+
+    public DownloadUtils(Context context) {
         this.mContext = context;
         this.downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
     }
 
     //使用系统下载器下载
-    public void downloadFile(String url, String name) {            //创建下载任务
+    public long addDownloadTask(String url, String name) {   //添加下载任务
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setAllowedOverRoaming(false);
         //漫游网络是否可以下载
-
         //设置文件类型，可以在下载结束后自动打开该文件
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         String mimeString = mimeTypeMap.getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(url));
@@ -46,17 +53,17 @@ public class DownloadUtils {
         //sdcard的目录下的download文件夹，必须设置
         request.setDestinationInExternalPublicDir("/download/", name);
         path = Environment.getExternalStorageDirectory() + "/download/" + name;
-        File apkfile = new File(path);
-        if (apkfile.exists()) {
-            apkfile.delete();
-        }
-        //request.setDestinationInExternalFilesDir(),也可以自己制定下载路径
+//        File apkfile = new File(path);
+//        if (apkfile.exists()) {
+//            apkfile.delete();
+//        }
         //加入下载队列后会给该任务返回一个long型的id，
         //通过该id可以取消任务，重启任务等等，看上面源码中框起来的方法
         mTaskId = downloadManager.enqueue(request);
         //注册广播接收者，监听下载状态
         mContext.registerReceiver(receiver,
                 new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        return mTaskId;
     }
 
     //广播接受者，接收下载状态
@@ -96,7 +103,7 @@ public class DownloadUtils {
     }
 
     private void openFile() {
-        Log.e("download--------------",path);
+        Log.e("download--------------", path);
         File apkfile = new File(path);
         if (!apkfile.exists()) {
             return;
@@ -104,7 +111,7 @@ public class DownloadUtils {
         try {
             Intent intent = new Intent("android.intent.action.VIEW");
             intent.addCategory("android.intent.category.DEFAULT");
-            intent.addFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setDataAndType(Uri.fromFile(apkfile), getMIMEType(apkfile));
             mContext.startActivity(intent);
         } catch (Exception e) {
@@ -115,23 +122,24 @@ public class DownloadUtils {
 
     /**
      * 根据文件后缀名获得对应的MIME类型。
+     *
      * @param file
      */
     private String getMIMEType(File file) {
 
-        String type="*/*";
+        String type = "*/*";
         String fName = file.getName();
 //获取后缀名前的分隔符"."在fName中的位置。
         int dotIndex = fName.lastIndexOf(".");
-        if(dotIndex < 0){
+        if (dotIndex < 0) {
             return type;
         }
 /* 获取文件的后缀名*/
-        String end=fName.substring(dotIndex,fName.length()).toLowerCase();
-        if(end=="")return type;
+        String end = fName.substring(dotIndex, fName.length()).toLowerCase();
+        if (end == "") return type;
 //在MIME和文件类型的匹配表中找到对应的MIME类型。
-        for(int i=0;i<MIME_MapTable.length;i++){ //MIME_MapTable??在这里你一定有疑问，这个MIME_MapTable是什么？
-            if(end.equals(MIME_MapTable[i][0]))
+        for (int i = 0; i < MIME_MapTable.length; i++) { //MIME_MapTable??在这里你一定有疑问，这个MIME_MapTable是什么？
+            if (end.equals(MIME_MapTable[i][0]))
                 type = MIME_MapTable[i][1];
         }
         return type;
@@ -148,8 +156,7 @@ public class DownloadUtils {
         mContext.startActivity(intent);
     }
 
-    private final String[][] MIME_MapTable={
-//{后缀名，MIME类型}
+    private final String[][] MIME_MapTable = { //{后缀名，MIME类型}
             {".3gp", "video/3gpp"},
             {".apk", "application/vnd.android.package-archive"},
             {".asf", "video/x-ms-asf"},

@@ -15,7 +15,7 @@ public class DbManager {
     // 是否加密
     public static final boolean ENCRYPTED = true;
 
-    private static final String DB_NAME = "test.db";
+    private static final String DB_NAME = "heaven.db";
     private static DbManager mDbManager;
     private static DaoMaster.DevOpenHelper mDevOpenHelper;
     private static DaoMaster mDaoMaster;

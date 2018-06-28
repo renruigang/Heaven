@@ -9,10 +9,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.bangqu.greendao.entity.DownLoadTask;
 import com.bangqu.lib.utils.AppUtils;
 import com.renrg.heaven.R;
 import com.renrg.heaven.comm.Constants;
-import com.renrg.heaven.model.Task;
 import com.renrg.heaven.util.SharedPref;
 
 /**
@@ -56,7 +56,11 @@ public class TaskAddDialog extends Dialog {
                             onOperaClickedListener.onNullInputNotice();
                             return;
                         }
-                        onOperaClickedListener.operaClickedListener(new Task(), true);
+                        DownLoadTask task = new DownLoadTask();
+                        task.setDownload_url(taskUrl.getText().toString());
+                        task.setFile_name(taskName.getText().toString());
+                        task.setSave_path(taskPath.getText().toString());
+                        onOperaClickedListener.operaClickedListener(task, true);
                     }
                     AppUtils.hideSoftInput(mContext, taskUrl);
                     dismiss();
@@ -80,7 +84,7 @@ public class TaskAddDialog extends Dialog {
     }
 
     public interface OnOperaClickedListener {
-        void operaClickedListener(Task value, boolean result);
+        void operaClickedListener(DownLoadTask value, boolean result);
 
         void onNullInputNotice();
     }
