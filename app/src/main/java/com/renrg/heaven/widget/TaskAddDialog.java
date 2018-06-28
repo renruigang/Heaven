@@ -11,16 +11,19 @@ import android.widget.EditText;
 
 import com.bangqu.lib.utils.AppUtils;
 import com.renrg.heaven.R;
+import com.renrg.heaven.comm.Constants;
 import com.renrg.heaven.model.Task;
+import com.renrg.heaven.util.SharedPref;
 
 /**
  * Created by Administrator on 2016/7/4.
  */
 public class TaskAddDialog extends Dialog {
 
-    private EditText taskUrl, taskName;
+    private EditText taskUrl, taskName, taskPath;
     private Context mContext;
     private OnOperaClickedListener onOperaClickedListener;
+    private SharedPref sharedPref;
 
     public void setTaskUrl(String url) {
         taskUrl.setText(url);
@@ -32,6 +35,7 @@ public class TaskAddDialog extends Dialog {
     public TaskAddDialog(Context context, OnOperaClickedListener listener) {
         super(context, R.style.menu_dialog_style);
         mContext = context;
+        sharedPref = new SharedPref(context);
         onOperaClickedListener = listener;
         setContentView(R.layout.dialog_taskadd);
         Window window = getWindow();
@@ -41,6 +45,7 @@ public class TaskAddDialog extends Dialog {
         window.setAttributes(p);
         taskUrl = findViewById(R.id.task_url);
         taskName = findViewById(R.id.task_name);
+        taskPath = findViewById(R.id.task_path);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +71,12 @@ public class TaskAddDialog extends Dialog {
         };
         findViewById(R.id.task_ok).setOnClickListener(onClickListener);
         findViewById(R.id.task_cancel).setOnClickListener(onClickListener);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        taskPath.setText(sharedPref.getString(Constants.SAVE_PATH));
     }
 
     public interface OnOperaClickedListener {

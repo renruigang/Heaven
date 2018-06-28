@@ -4,11 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.renrg.heaven.R;
 import com.renrg.heaven.base.BaseFragment;
+import com.renrg.heaven.comm.Constants;
 import com.renrg.heaven.listener.LeftMenuItemSelectedListener;
+import com.renrg.heaven.util.SharedPref;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -16,6 +20,11 @@ import butterknife.OnClick;
  * Created by zhy on 15/4/26.
  */
 public class LeftMenuFragment extends BaseFragment {
+
+    @BindView(R.id.save_path)
+    TextView savePath;
+
+    private SharedPref sharedPref;
 
     private LeftMenuItemSelectedListener leftMenuItemSelectedListener;
 
@@ -41,6 +50,13 @@ public class LeftMenuFragment extends BaseFragment {
     }
 
     private void initView() {
+        sharedPref = new SharedPref(getContext());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        savePath.setText(sharedPref.getString(Constants.SAVE_PATH));
     }
 
     @OnClick({R.id.leftmenu_path, R.id.leftmenu_aboutus})

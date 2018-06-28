@@ -27,18 +27,44 @@
         style="@style/horizontal_line"
         android:layout_marginTop="16dp" />
 
-    <com.bangqu.lib.widget.TextViewPlus
+    <RelativeLayout
         android:id="@+id/leftmenu_path"
         style="@style/horizontal_padding_style"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
+        android:layout_height="wrap_content"
         android:background="@drawable/item_selector_light"
-        android:drawableRight="@mipmap/ic_arrow_gray"
-        android:gravity="center_vertical"
-        android:text="@string/task_path"
-        android:textColor="@color/primary_text"
-        app:drawHeight="14dp"
-        app:drawWidth="8dp" />
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:id="@+id/path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/task_path"
+            android:textColor="@color/primary_text" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_arrow_gray" />
+
+        <TextView
+            android:id="@+id/save_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/path"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_toLeftOf="@id/arrow"
+            android:ellipsize="start"
+            android:singleLine="true"
+            android:textColor="@color/secondary_text"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
 
     <View style="@style/horizontal_line" />
 
@@ -46,14 +72,16 @@
         android:id="@+id/leftmenu_aboutus"
         style="@style/horizontal_padding_style"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
+        android:layout_height="wrap_content"
         android:background="@drawable/item_selector_light"
         android:drawableRight="@mipmap/ic_arrow_gray"
         android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:text="@string/about_us"
         android:textColor="@color/primary_text"
-        app:drawHeight="14dp"
-        app:drawWidth="8dp" />
+        app:drawHeight="16dp"
+        app:drawWidth="16dp" />
 
     <View style="@style/horizontal_line" />
 

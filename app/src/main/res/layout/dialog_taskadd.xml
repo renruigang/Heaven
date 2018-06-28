@@ -62,23 +62,10 @@
 
             <EditText
                 android:id="@+id/task_path"
-                style="@style/table_edit_style" />
+                style="@style/table_edit_style"
+                android:enabled="false" />
         </TableRow>
 
-        <TableRow android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/task_size"
-                android:textColor="@color/color_black"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/task_size"
-                style="@style/table_edit_style" />
-        </TableRow>
     </TableLayout>
 
     <View
